@@ -18,33 +18,35 @@ public class RecipeController implements RecipeApi {
   private final RecipeService recipeService;
 
   @Override
-  public ResponseEntity<Recipe> createRecipes(Recipe recipe) {
-    log.trace("method called: createRecipes");
-    recipeService.createRecipes(recipe);
+  public ResponseEntity<Void> addRecipes(Recipe recipe) {
+    log.trace("method called: addRecipes");
+    recipeService.addRecipe(recipe);
     return new ResponseEntity<>(HttpStatus.CREATED);
   }
 
   @Override
   public ResponseEntity<Void> deleteRecipe(Integer id) {
     log.trace("method called: deleteRecipe");
-    return null;
+    recipeService.deleteRecipe(id);
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
   @Override
   public ResponseEntity<Recipe> getRecipeById(Integer id) {
     log.trace("method called: getRecipeById");
-    return null;
+    return ResponseEntity.ok(recipeService.getRecipeById(id));
   }
 
   @Override
   public ResponseEntity<List<Recipe>> getRecipes() {
     log.trace("method called: getRecipes");
-    return null;
+    return ResponseEntity.ok(recipeService.getRecipes());
   }
 
   @Override
-  public ResponseEntity<Recipe> updateRecipes(Integer id, Recipe recipe) {
+  public ResponseEntity<Void> updateRecipes(Integer id, Recipe recipe) {
     log.trace("method called: updateRecipes");
-    return null;
+    recipeService.updateRecipes(id, recipe);
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 }

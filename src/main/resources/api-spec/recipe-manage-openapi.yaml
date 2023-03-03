@@ -28,9 +28,9 @@ paths:
                 items:
                   $ref: '#/components/schemas/Recipe'
     post:
-      summary: Create a new recipe
+      summary: Add a new recipe
       description: Add a new recipe to the system
-      operationId: createRecipes
+      operationId: addRecipes
       tags:
         - recipe
       requestBody:
@@ -43,10 +43,6 @@ paths:
       responses:
         '201':
           description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Recipe'
   /api/v1/recipes/{id}:
     get:
       summary: Get a specific recipe
@@ -93,10 +89,6 @@ paths:
       responses:
         '200':
           description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Recipe'
         '404':
           description: Recipe not found
     delete:
