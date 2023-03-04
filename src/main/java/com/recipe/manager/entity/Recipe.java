@@ -24,7 +24,7 @@ public class Recipe {
   @Id
   @Column(name = "Id")
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
+  private Integer id;
 
   @Column(name = "recipe_name")
   private String name;

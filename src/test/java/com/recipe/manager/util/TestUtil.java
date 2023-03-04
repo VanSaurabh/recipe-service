@@ -19,7 +19,7 @@ public class TestUtil {
 
   public static Recipe getRecipe2() {
     return Recipe.builder()
-        .id(2L)
+        .id(2)
         .name("Daal Baati")
         .ingredients("Daal, Baati, Chokha, Chutney")
         .servings(2)
@@ -31,7 +31,7 @@ public class TestUtil {
 
   public static Recipe getRecipe() {
     return Recipe.builder()
-        .id(1L)
+        .id(1)
         .name("Biryani")
         .ingredients("Rice, chicken, Masala")
         .servings(4)
@@ -43,7 +43,7 @@ public class TestUtil {
 
   public static RecipeResponse getRecipeResponse() {
     return new RecipeResponse()
-        .id(1L)
+        .id(1)
         .name("Biryani")
         .ingredients("Rice, chicken, Masala")
         .servings(4)
@@ -53,7 +53,7 @@ public class TestUtil {
 
   public static RecipeResponse getRecipeResponse2() {
     return new RecipeResponse()
-        .id(2L)
+        .id(2)
         .name("Daal Baati")
         .ingredients("Daal, Baati, Chokha, Chutney")
         .servings(2)
