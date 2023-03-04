@@ -1,4 +1,3 @@
-/*
 package com.recipe.manager.service;
 
 import static com.recipe.manager.util.Constants.RECIPE_NOT_FOUND_BY_ID_ERROR_MSG;
@@ -59,4 +58,3 @@ public class RecipeService {
         .orElseThrow(() -> new NotFoundException(RECIPE_NOT_FOUND_BY_ID_ERROR_MSG + id));
   }
 }
-*/

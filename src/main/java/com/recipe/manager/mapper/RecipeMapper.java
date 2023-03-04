@@ -1,4 +1,3 @@
-/*
 package com.recipe.manager.mapper;
 
 import static org.mapstruct.ReportingPolicy.IGNORE;
@@ -17,4 +16,3 @@ public interface RecipeMapper {
 
   RecipeEntity mapUpdateRecipe(Recipe recipe, @MappingTarget RecipeEntity recipeEntity);
 }
-*/

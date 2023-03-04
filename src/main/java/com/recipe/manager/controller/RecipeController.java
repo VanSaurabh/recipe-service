@@ -1,4 +1,3 @@
-/*
 package com.recipe.manager.controller;
 
 import com.recipe.manager.server.api.RecipeApi;
@@ -51,4 +50,3 @@ public class RecipeController implements RecipeApi {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 }
-*/
