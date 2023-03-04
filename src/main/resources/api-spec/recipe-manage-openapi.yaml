@@ -108,6 +108,57 @@ paths:
       responses:
         '204':
           description: No content
+  /recipe-manager/api/v1/search/recipes/:
+    get:
+      summary: Get a specific recipe
+      description: Retrieve information about a specific recipe
+      operationId: searchRecipes
+      tags:
+        - recipe
+      parameters:
+        - in: query
+          name: isVeg
+          description: filters all the recipes based on isVeg option
+          required: false
+          schema:
+            type: boolean
+        - in: query
+          name: serving
+          description: filters all the recipes based on number of servings
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: includedIngredients
+          description: filters all the recipes based on number of servings
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - in: query
+          name: excludedIngredients
+          description: filters all the recipes based on number of servings
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - in: query
+          name: searchInstructions
+          description: filters all the recipes based on number of servings
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Recipe'
 components:
   schemas:
     Recipe:

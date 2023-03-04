@@ -15,13 +15,5 @@ import org.springframework.stereotype.Service;
 public class RecipeSearchService {
 
   private final RecipeMapper recipeMapper;
-  private final RecipeSearchRepository recipeSearchRepository;
 
-  public List<Recipe> searchRecipe(Boolean isVeg, Integer serving, List<String> includedIngredients, List<String> excludedIngredients, String searchInstructions) {
-     return recipeSearchRepository.getRecipesBySearchCriteria(isVeg, serving, includedIngredients, excludedIngredients, searchInstructions)
-         .orElse(Collections.emptyList())
-         .stream()
-         .map(recipeMapper::mapGetRecipeById)
-         .toList();
-  }
 }

@@ -47,6 +47,15 @@ public class RecipeController implements RecipeApi {
   }
 
   @Override
+  public ResponseEntity<List<Recipe>> searchRecipes(Boolean isVeg, Integer serving,
+      List<String> includedIngredients, List<String> excludedIngredients,
+      String searchInstructions) {
+    log.trace("method called: searchRecipes");
+    return ResponseEntity.ok(recipeService
+        .searchRecipe(isVeg, serving, includedIngredients, excludedIngredients, searchInstructions));
+  }
+
+  @Override
   public ResponseEntity<Void> updateRecipes(Integer id, Recipe recipe) {
     log.trace("method called: updateRecipes");
     recipeService.updateRecipes(id, recipe);
