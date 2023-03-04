@@ -2,7 +2,7 @@ package com.recipe.manager.repository;
 
 import static java.util.Objects.nonNull;
 
-import com.recipe.manager.entity.RecipeEntity;
+import com.recipe.manager.entity.Recipe;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
@@ -16,11 +16,11 @@ public class RecipeSearchRepository {
 
   private final EntityManager entityManager;
 
-  public Optional<List<RecipeEntity>> getRecipesBySearchCriteria(Boolean isVeg, Integer serving,
+  public Optional<List<Recipe>> getRecipesBySearchCriteria(Boolean isVeg, Integer serving,
       List<String> includedIngredients, List<String> excludedIngredients,
       String searchInstructions) {
 
-    StringBuilder queryBuilder = new StringBuilder("SELECT rec FROM RecipeEntity rec WHERE");
+    StringBuilder queryBuilder = new StringBuilder("SELECT rec FROM Recipe rec WHERE");
     if(nonNull(isVeg)) {
       queryBuilder.append(" rec.isVegetarian = ").append(isVeg);
     }
@@ -51,8 +51,8 @@ public class RecipeSearchRepository {
 
     queryBuilder.append(" and rec.isDeleted = ").append("false");
 
-    TypedQuery<RecipeEntity> query = entityManager
-        .createQuery(queryBuilder.toString(), RecipeEntity.class);
+    TypedQuery<Recipe> query = entityManager
+        .createQuery(queryBuilder.toString(), Recipe.class);
 
     return Optional.ofNullable(query.getResultList());
   }

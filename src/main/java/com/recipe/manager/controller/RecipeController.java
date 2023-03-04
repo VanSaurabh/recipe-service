@@ -5,7 +5,8 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
 
 import com.recipe.manager.server.api.RecipeApi;
-import com.recipe.manager.server.model.Recipe;
+import com.recipe.manager.server.model.RecipeRequest;
+import com.recipe.manager.server.model.RecipeResponse;
 import com.recipe.manager.service.RecipeService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,9 @@ public class RecipeController implements RecipeApi {
   private final RecipeService recipeService;
 
   @Override
-  public ResponseEntity<Void> addRecipes(Recipe recipe) {
+  public ResponseEntity<Void> addRecipes(RecipeRequest recipeRequest) {
     log.trace("method called: addRecipes");
-    recipeService.addRecipe(recipe);
+    recipeService.addRecipe(recipeRequest);
     return new ResponseEntity<>(CREATED);
   }
 
@@ -35,19 +36,19 @@ public class RecipeController implements RecipeApi {
   }
 
   @Override
-  public ResponseEntity<Recipe> getRecipeById(Integer id) {
+  public ResponseEntity<RecipeResponse> getRecipeById(Integer id) {
     log.trace("method called: getRecipeById");
     return ResponseEntity.ok(recipeService.getRecipeById(id));
   }
 
   @Override
-  public ResponseEntity<List<Recipe>> getRecipes() {
+  public ResponseEntity<List<RecipeResponse>> getRecipes() {
     log.trace("method called: getRecipes");
     return ResponseEntity.ok(recipeService.getRecipes());
   }
 
   @Override
-  public ResponseEntity<List<Recipe>> searchRecipes(Boolean isVeg, Integer serving,
+  public ResponseEntity<List<RecipeResponse>> searchRecipes(Boolean isVeg, Integer serving,
       List<String> includedIngredients, List<String> excludedIngredients,
       String searchInstructions) {
     log.trace("method called: searchRecipes");
@@ -56,9 +57,9 @@ public class RecipeController implements RecipeApi {
   }
 
   @Override
-  public ResponseEntity<Void> updateRecipes(Integer id, Recipe recipe) {
+  public ResponseEntity<Void> updateRecipes(Integer id, RecipeRequest recipeRequest) {
     log.trace("method called: updateRecipes");
-    recipeService.updateRecipes(id, recipe);
+    recipeService.updateRecipes(id, recipeRequest);
     return new ResponseEntity<>(OK);
   }
 }

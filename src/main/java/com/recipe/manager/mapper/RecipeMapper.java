@@ -2,17 +2,18 @@ package com.recipe.manager.mapper;
 
 import static org.mapstruct.ReportingPolicy.IGNORE;
 
-import com.recipe.manager.entity.RecipeEntity;
-import com.recipe.manager.server.model.Recipe;
+import com.recipe.manager.entity.Recipe;
+import com.recipe.manager.server.model.RecipeRequest;
+import com.recipe.manager.server.model.RecipeResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
 @Mapper(unmappedTargetPolicy = IGNORE, componentModel = "spring")
 public interface RecipeMapper {
 
-  RecipeEntity mapCreateRecipe(Recipe recipe);
+  Recipe mapCreateRecipe(RecipeRequest recipe);
 
-  Recipe mapGetRecipeById(RecipeEntity recipeEntity);
+  RecipeResponse mapGetRecipeById(Recipe recipeEntity);
 
-  RecipeEntity mapUpdateRecipe(Recipe recipe, @MappingTarget RecipeEntity recipeEntity);
+  Recipe mapUpdateRecipe(RecipeRequest recipe, @MappingTarget Recipe recipeEntity);
 }

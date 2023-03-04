@@ -19,12 +19,12 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RecipeEntity {
+public class Recipe {
 
   @Id
   @Column(name = "Id")
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private Integer id;
+  private Long id;
 
   @Column(name = "recipe_name")
   private String name;

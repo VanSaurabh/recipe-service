@@ -1,14 +1,15 @@
 package com.recipe.manager.service;
 
+import static com.recipe.manager.util.Constants.RECIPES_NOT_FOUND_ERROR_MSG;
 import static com.recipe.manager.util.Constants.RECIPE_NOT_FOUND_BY_ID_ERROR_MSG;
-import static com.recipe.manager.util.Constants.RECIPE_NOT_FOUND_ERROR_MSG;
 
-import com.recipe.manager.entity.RecipeEntity;
+import com.recipe.manager.entity.Recipe;
 import com.recipe.manager.exception.RecipeException.NotFoundException;
 import com.recipe.manager.mapper.RecipeMapper;
 import com.recipe.manager.repository.RecipeRepository;
 import com.recipe.manager.repository.RecipeSearchRepository;
-import com.recipe.manager.server.model.Recipe;
+import com.recipe.manager.server.model.RecipeRequest;
+import com.recipe.manager.server.model.RecipeResponse;
 import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -24,53 +25,57 @@ public class RecipeService {
   private final RecipeRepository recipeRepository;
   private final RecipeSearchRepository recipeSearchRepository;
 
-  public void addRecipe(Recipe recipe) {
+  public void addRecipe(RecipeRequest recipeRequest) {
     log.debug("adding a new recipe");
-    RecipeEntity recipeEntity = recipeMapper.mapCreateRecipe(recipe);
-    recipeRepository.save(recipeEntity);
+    Recipe recipe = recipeMapper.mapCreateRecipe(recipeRequest);
+    recipeRepository.save(recipe);
   }
 
-  public void deleteRecipe(Integer id) {
-      RecipeEntity recipeEntity = validateAndGetRecipeFromDb(id);
-      log.debug("deleting a recipe with id: {}", id);
-      recipeEntity.setDeleted(true);
-      recipeRepository.save(recipeEntity);
-  }
-
-  public Recipe getRecipeById(Integer id) {
+  public RecipeResponse getRecipeById(Integer id) {
     log.debug("getting recipe by id: {}", id);
-    RecipeEntity recipeEntity = validateAndGetRecipeFromDb(id);
-    if(recipeEntity.isDeleted()) {
+    Recipe recipe = validateAndGetRecipeFromDb(id);
+    if(recipe.isDeleted()) {
       throw new NotFoundException("Recipe with given id: "+ id + " not found");
     }
-    return recipeMapper.mapGetRecipeById(recipeEntity);
+    return recipeMapper.mapGetRecipeById(recipe);
   }
 
-  public List<Recipe> getRecipes() {
+  public List<RecipeResponse> getRecipes() {
     log.debug("getting all recipes");
     return recipeRepository.findAllByIsDeleted(false)
-        .orElseThrow(() -> new NotFoundException(RECIPE_NOT_FOUND_ERROR_MSG))
+        .orElseThrow(() -> new NotFoundException(RECIPES_NOT_FOUND_ERROR_MSG))
         .stream()
         .map(recipeMapper::mapGetRecipeById)
         .toList();
   }
 
-  public void updateRecipes(Integer id, Recipe recipe) {
-    RecipeEntity recipeEntity = validateAndGetRecipeFromDb(id);
+  public void updateRecipes(Integer id, RecipeRequest recipeRequest) {
+    Recipe recipe = validateAndGetRecipeFromDb(id);
     log.debug("updating a recipe with id: {}", id);
-    RecipeEntity newRecipeEntity = recipeMapper.mapUpdateRecipe(recipe, recipeEntity);
+    Recipe newRecipeEntity = recipeMapper.mapUpdateRecipe(recipeRequest, recipe);
     recipeRepository.save(newRecipeEntity);
   }
 
-  public List<Recipe> searchRecipe(Boolean isVeg, Integer serving, List<String> includedIngredients, List<String> excludedIngredients, String searchInstructions) {
-    return recipeSearchRepository.getRecipesBySearchCriteria(isVeg, serving, includedIngredients, excludedIngredients, searchInstructions)
+  public void deleteRecipe(Integer id) {
+    Recipe recipe = validateAndGetRecipeFromDb(id);
+    log.debug("deleting a recipe with id: {}", id);
+    recipe.setDeleted(true);
+    recipeRepository.save(recipe);
+  }
+
+  public List<RecipeResponse> searchRecipe(Boolean isVeg, Integer serving,
+      List<String> includedIngredients, List<String> excludedIngredients,
+      String searchInstructions) {
+    return recipeSearchRepository
+        .getRecipesBySearchCriteria(isVeg, serving, includedIngredients, excludedIngredients,
+            searchInstructions)
         .orElse(Collections.emptyList())
         .stream()
         .map(recipeMapper::mapGetRecipeById)
         .toList();
   }
 
-  private RecipeEntity validateAndGetRecipeFromDb(Integer id) {
+  private Recipe validateAndGetRecipeFromDb(Integer id) {
     return recipeRepository.findById(id)
         .orElseThrow(() -> new NotFoundException(RECIPE_NOT_FOUND_BY_ID_ERROR_MSG + id));
   }
