@@ -1,4 +1,4 @@
-package com.recipe.manager;
+package com.recipe.manager.util;
 
 import lombok.experimental.UtilityClass;
 

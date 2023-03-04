@@ -1,3 +1,4 @@
+/*
 package com.recipe.manager.controller;
 
 import com.recipe.manager.server.api.RecipeApi;
@@ -11,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@RestController
+@RestController("recipe-manager")
 @RequiredArgsConstructor
 public class RecipeController implements RecipeApi {
 
@@ -50,3 +51,4 @@ public class RecipeController implements RecipeApi {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 }
+*/
