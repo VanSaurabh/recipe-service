@@ -1,5 +1,6 @@
 package com.recipe.manager.exception;
 
+import com.recipe.manager.exception.model.BaseException;
 import java.io.Serial;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

@@ -7,8 +7,19 @@ spring:
     username: sa
     password:
     driverClassName: org.h2.Driver
+  sql:
+    init:
+      data-locations: classpath:data/data.sql
+      mode: always
   h2:
     console:
       enabled: true
   jpa:
-    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.H2Dialect
+    ddl-auto: none
+    defer-datasource-initialization: true
+    show-sql: true
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG

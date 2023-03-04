@@ -1,4 +1,4 @@
-package com.recipe.manager.exception;
+package com.recipe.manager.exception.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -37,6 +37,7 @@ paths:
         description: Recipe object to be added
         required: true
         content:
+
           application/json:
             schema:
               $ref: '#/components/schemas/Recipe'
@@ -117,7 +118,7 @@ components:
           format: int64
         name:
           type: string
-        vegetarian:
+        isVegetarian:
           type: boolean
         servings:
           type: integer
@@ -129,6 +130,6 @@ components:
           type: string
       required:
         - name
-        - vegetarian
+        - isVegetarian
         - servings
         - instructions

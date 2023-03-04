@@ -1,12 +1,15 @@
 package com.recipe.manager.controller;
 
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
+
 import com.recipe.manager.server.api.RecipeApi;
 import com.recipe.manager.server.model.Recipe;
 import com.recipe.manager.service.RecipeService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,14 +24,14 @@ public class RecipeController implements RecipeApi {
   public ResponseEntity<Void> addRecipes(Recipe recipe) {
     log.trace("method called: addRecipes");
     recipeService.addRecipe(recipe);
-    return new ResponseEntity<>(HttpStatus.CREATED);
+    return new ResponseEntity<>(CREATED);
   }
 
   @Override
   public ResponseEntity<Void> deleteRecipe(Integer id) {
     log.trace("method called: deleteRecipe");
     recipeService.deleteRecipe(id);
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    return new ResponseEntity<>(NO_CONTENT);
   }
 
   @Override
@@ -47,6 +50,6 @@ public class RecipeController implements RecipeApi {
   public ResponseEntity<Void> updateRecipes(Integer id, Recipe recipe) {
     log.trace("method called: updateRecipes");
     recipeService.updateRecipes(id, recipe);
-    return new ResponseEntity<>(HttpStatus.OK);
+    return new ResponseEntity<>(OK);
   }
 }

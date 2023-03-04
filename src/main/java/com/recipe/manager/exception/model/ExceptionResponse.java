@@ -1,4 +1,4 @@
-package com.recipe.manager.exception;
+package com.recipe.manager.exception.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommonException {
+public class ExceptionResponse {
 
   private String message;
   private String errorCode;

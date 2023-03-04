@@ -1,6 +1,7 @@
 package com.recipe.manager.service;
 
 import static com.recipe.manager.util.Constants.RECIPE_NOT_FOUND_BY_ID_ERROR_MSG;
+import static com.recipe.manager.util.Constants.RECIPE_NOT_FOUND_ERROR_MSG;
 
 import com.recipe.manager.entity.RecipeEntity;
 import com.recipe.manager.exception.RecipeException.NotFoundException;
@@ -45,6 +46,7 @@ public class RecipeService {
   public List<Recipe> getRecipes() {
     log.debug("getting all recipes");
     return recipeRepository.findAllByIsDeleted(false)
+        .orElseThrow(() -> new NotFoundException(RECIPE_NOT_FOUND_ERROR_MSG))
         .stream()
         .map(recipeMapper::mapGetRecipeById)
         .toList();

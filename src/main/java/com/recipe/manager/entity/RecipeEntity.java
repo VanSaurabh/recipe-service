@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Recipe")
+@Table(name = "recipe")
 @Getter
 @Setter
 @Builder
@@ -32,7 +32,7 @@ public class RecipeEntity {
   private String name;
 
   @Column(name = "is_vegetarian")
-  private Boolean vegetarian;
+  private Boolean isVegetarian;
 
   @Column(name = "servings")
   private Integer servings;
@@ -41,7 +41,7 @@ public class RecipeEntity {
   @Column(name = "ingredients")
   private List<String> ingredients;
 
-  @Column(name = "instructions")
+  @Column(name = "instructions", length = 1000)
   private String instructions;
 
   @Column(name = "is_deleted")
