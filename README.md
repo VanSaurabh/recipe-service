@@ -37,7 +37,7 @@ Please check the API specification here:
 
 ### Sample Request
 Please find sample request here:
-- [Sample Requests](src/main/resources/data/data.sql)
+- [Sample Requests](src/main/resources/request/Request.json)
 
 ### Initial Data set
 Please find the initial dataset here:
