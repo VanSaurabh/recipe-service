@@ -1,13 +1,12 @@
-/*
 package com.recipe.manager.repository;
+
+import static java.util.Objects.nonNull;
 
 import com.recipe.manager.entity.RecipeEntity;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -17,14 +16,44 @@ public class RecipeSearchRepository {
 
   private final EntityManager entityManager;
 
-  List<RecipeEntity> getRecipesBySearchCriteria() {
-    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-    CriteriaQuery<RecipeEntity> criteriaQuery = criteriaBuilder.createQuery(RecipeEntity.class);
+  public Optional<List<RecipeEntity>> getRecipesBySearchCriteria(Boolean isVeg, Integer serving,
+      List<String> includedIngredients, List<String> excludedIngredients,
+      String searchInstructions) {
 
-    Root<RecipeEntity> recipes = criteriaQuery.from(RecipeEntity.class);
-    Predicate authorNamePredicate = criteriaBuilder.equal(book.get("author"), authorName);
-    Predicate titlePredicate = cb.like(book.get("title"), "%" + title + "%");
-    cq.where(authorNamePredicate, titlePredicate);
+    StringBuilder queryBuilder = new StringBuilder("SELECT rec FROM RecipeEntity rec WHERE");
+    if(nonNull(isVeg)) {
+      queryBuilder.append(" rec.isVegetarian = ").append(isVeg);
+    }
+
+    if(nonNull(serving)) {
+      queryBuilder.append(" and rec.servings = ").append(serving);
+    }
+
+    if(nonNull(includedIngredients) && !includedIngredients.isEmpty()) {
+      queryBuilder.append(" and ( rec.ingredients like '%").append(includedIngredients.get(0)).append("%'");
+      for(int i=1; i<includedIngredients.size(); i++) {
+        queryBuilder.append(" or rec.ingredients like '%").append(includedIngredients.get(i)).append("%'");
+      }
+      queryBuilder.append(")");
+    }
+
+    if(nonNull(excludedIngredients) && !excludedIngredients.isEmpty()) {
+      queryBuilder.append(" and ( rec.ingredients not like '%").append(excludedIngredients.get(0)).append("%'");
+      for(int i=1; i<excludedIngredients.size(); i++) {
+        queryBuilder.append(" and rec.ingredients not like '%").append(excludedIngredients.get(i)).append("%'");
+      }
+      queryBuilder.append(")");
+    }
+
+    if(nonNull(searchInstructions)) {
+      queryBuilder.append(" and rec.instructions like '%").append(searchInstructions).append("%");
+    }
+
+    queryBuilder.append(" and rec.isDeleted = ").append("false");
+
+    TypedQuery<RecipeEntity> query = entityManager
+        .createQuery(queryBuilder.toString(), RecipeEntity.class);
+
+    return Optional.ofNullable(query.getResultList());
   }
 }
-*/
