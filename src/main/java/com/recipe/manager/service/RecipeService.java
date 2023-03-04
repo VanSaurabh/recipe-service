@@ -27,20 +27,24 @@ public class RecipeService {
   }
 
   public void deleteRecipe(Integer id) {
-      validateAndGetRecipeFromDb(id);
+      RecipeEntity recipeEntity = validateAndGetRecipeFromDb(id);
       log.debug("deleting a recipe with id: {}", id);
-      recipeRepository.deleteById(id);
+      recipeEntity.setDeleted(true);
+      recipeRepository.save(recipeEntity);
   }
 
   public Recipe getRecipeById(Integer id) {
     log.debug("getting recipe by id: {}", id);
     RecipeEntity recipeEntity = validateAndGetRecipeFromDb(id);
+    if(recipeEntity.isDeleted()) {
+      throw new NotFoundException("Recipe with given id: "+ id + " not found");
+    }
     return recipeMapper.mapGetRecipeById(recipeEntity);
   }
 
   public List<Recipe> getRecipes() {
     log.debug("getting all recipes");
-    return recipeRepository.findAll()
+    return recipeRepository.findAllByIsDeleted(false)
         .stream()
         .map(recipeMapper::mapGetRecipeById)
         .toList();

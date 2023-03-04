@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@RestController("recipe-manager")
+@RestController
 @RequiredArgsConstructor
 public class RecipeController implements RecipeApi {
 

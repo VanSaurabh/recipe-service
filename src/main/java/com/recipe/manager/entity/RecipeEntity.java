@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,6 +18,7 @@ import lombok.Setter;
 @Table(name = "Recipe")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class RecipeEntity {
@@ -41,5 +43,8 @@ public class RecipeEntity {
 
   @Column(name = "instructions")
   private String instructions;
+
+  @Column(name = "is_deleted")
+  private boolean isDeleted;
 
 }

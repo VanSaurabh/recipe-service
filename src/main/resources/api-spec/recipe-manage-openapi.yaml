@@ -11,7 +11,7 @@ tags:
   - name: Recipe
 
 paths:
-  /api/v1/recipes:
+  /recipe-manager/api/v1/recipes:
     get:
       summary: Get all recipes
       description: Retrieve a list of all available recipes
@@ -43,7 +43,7 @@ paths:
       responses:
         '201':
           description: Created
-  /api/v1/recipes/{id}:
+  /recipe-manager/api/v1/recipes/{id}:
     get:
       summary: Get a specific recipe
       description: Retrieve information about a specific recipe

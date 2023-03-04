@@ -3,6 +3,8 @@ package com.recipe.manager.mapper;
 import static org.mapstruct.ReportingPolicy.IGNORE;
 
 import com.recipe.manager.entity.RecipeEntity;
+import com.recipe.manager.exception.CommonException;
+import com.recipe.manager.exception.RecipeException.NotFoundException;
 import com.recipe.manager.server.model.Recipe;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
@@ -15,4 +17,6 @@ public interface RecipeMapper {
   Recipe mapGetRecipeById(RecipeEntity recipeEntity);
 
   RecipeEntity mapUpdateRecipe(Recipe recipe, @MappingTarget RecipeEntity recipeEntity);
+
+  CommonException mapNotFoundException(NotFoundException exception, int errorCode);
 }
