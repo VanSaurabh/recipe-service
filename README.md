@@ -41,7 +41,7 @@ Please find sample request here:
 
 ### Initial Data set
 Please find the initial dataset here:
-- [Data Set](src/main/resources/data/data.sql)
+- [Data Set](src/main/resources/data/insert.sql)
 
 ### Instruction to build the service
 go to the root of the project and execute

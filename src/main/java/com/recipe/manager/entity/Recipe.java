@@ -11,6 +11,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "recipe")
@@ -23,7 +24,9 @@ public class Recipe {
 
   @Id
   @Column(name = "Id")
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GenericGenerator(name = "native_generator", strategy = "native")
+  @GeneratedValue(generator = "native_generator")
+
   private Integer id;
 
   @Column(name = "recipe_name")

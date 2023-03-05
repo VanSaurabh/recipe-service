@@ -1,71 +1,70 @@
 [
   {
-    "recipe_name": "spaghetti carbonara",
-    "is_vegetarian": false,
+    "name": "spaghetti carbonara",
+    "isVegetarian": false,
     "servings": 4,
     "ingredients": "spaghetti, eggs, bacon, parmesan cheese, black pepper",
-    "instructions": "Cook spaghetti according to package instructions. Meanwhile, cook bacon until crispy. Beat eggs and mix in parmesan cheese and black pepper. Drain spaghetti and add to the pan with the bacon. Remove from heat and quickly stir in egg mixture. Serve immediately.",
-    "is_deleted": false
+    "instructions": "Cook spaghetti according to package instructions. Meanwhile, cook bacon until crispy. Beat eggs and mix in parmesan cheese and black pepper. Drain spaghetti and add to the pan with the bacon. Remove from heat and quickly stir in egg mixture. Serve immediately."
   },
   {
-    "recipe_name": "lentil soup",
-    "is_vegetarian": true,
+    "name": "lentil soup",
+    "isVegetarian": true,
     "servings": 6,
     "ingredients": "lentils, carrots, celery, onion, garlic, tomatoes, vegetable broth, bay leaves, thyme, salt, black pepper",
     "instructions": "Heat olive oil in a large pot over medium heat. Add onions, carrots, and celery and sauté for a few minutes. Add garlic and cook for another minute. Add lentils, tomatoes, vegetable broth, bay leaves, and thyme. Bring to a boil, then reduce heat and simmer for 30-40 minutes, until lentils are tender. Season with salt and black pepper to taste."
   },
   {
-    "recipe_name": "chocolate chip cookies",
-    "is_vegetarian": true,
+    "name": "chocolate chip cookies",
+    "isVegetarian": true,
     "servings": 24,
     "ingredients": "butter, brown sugar, granulated sugar, eggs, vanilla extract, all-purpose flour, baking soda, salt, chocolate chips",
     "instructions": "Preheat oven to 375°F. Cream butter, brown sugar, and granulated sugar until light and fluffy. Beat in eggs and vanilla extract. In a separate bowl, mix together flour, baking soda, and salt. Gradually stir flour mixture into butter mixture. Fold in chocolate chips. Drop dough by spoonfuls onto baking sheet. Bake for 8-10 minutes or until golden brown. Cool on wire rack."
   },
   {
-    "recipe_name": "chicken fajitas",
-    "is_vegetarian": false,
+    "name": "chicken fajitas",
+    "isVegetarian": false,
     "servings": 4,
     "ingredients": "chicken breasts, bell peppers, onion, fajita seasoning, flour tortillas, sour cream, salsa, shredded cheese, guacamole",
     "instructions": "Slice chicken breasts, bell peppers, and onion into thin strips. Cook in a pan over medium-high heat with fajita seasoning until chicken is cooked through and vegetables are tender-crisp. Serve with warm flour tortillas, sour cream, salsa, shredded cheese, and guacamole."
   },
   {
     "name": "tomato soup",
-    "is_vegetarian": true,
+    "isVegetarian": true,
     "servings": 4,
     "ingredients": "tomatoes, carrots, celery, onion, garlic, vegetable broth, olive oil, bay leaf, sugar, salt, black pepper, heavy cream",
     "instructions": "Heat olive oil in a large pot over medium heat. Add onions, carrots, and celery and sauté for a few minutes. Add garlic and cook for another minute. Add tomatoes, vegetable broth, bay leaf, sugar, salt, and black pepper. Bring to a boil, then reduce heat and simmer for 20-30 minutes. Remove bay leaf and blend soup until smooth. Stir in heavy cream and serve."
   },
   {
     "name": "spaghetti bolognese",
-    "is_vegetarian": false,
+    "isVegetarian": false,
     "servings": 6,
     "ingredients": "spaghetti, ground beef, onion, garlic, tomato sauce, canned tomatoes, beef broth, oregano, salt, black pepper",
     "instructions": "Cook spaghetti according to package instructions. Meanwhile, cook ground beef in a large skillet over medium-high heat until browned. Add onions and garlic and cook until softened. Add tomato sauce, canned tomatoes, beef broth, oregano, salt, and black pepper. Simmer for 15-20 minutes. Serve sauce over cooked spaghetti."
   },
   {
     "name": "vegetable stir-fry",
-    "is_vegetarian": true,
+    "isVegetarian": true,
     "servings": 4,
     "ingredients": "broccoli, carrots, snow peas, red bell pepper, onion, garlic, soy sauce, rice vinegar, cornstarch, vegetable oil",
     "instructions": "Slice broccoli, carrots, snow peas, red bell pepper, and onion into bite-sized pieces. Heat vegetable oil in a wok or large skillet over high heat. Add garlic and stir-fry for 30 seconds. Add vegetables and stir-fry for 3-4 minutes until crisp-tender. Mix soy sauce, rice vinegar, and cornstarch in a small bowl. Pour over vegetables and stir-fry for another minute until sauce thickens. Serve with rice."
   },
   {
     "name": "chicken parmesan",
-    "is_vegetarian": false,
+    "isVegetarian": false,
     "servings": 4,
     "ingredients": "chicken breasts, breadcrumbs, parmesan cheese, mozzarella cheese, tomato sauce, spaghetti, eggs, flour, garlic powder, salt, black pepper",
     "instructions": "Preheat oven to 375°F. In a bowl, mix breadcrumbs, grated parmesan cheese, garlic powder, salt, and black pepper. In a separate bowl, beat eggs. Coat chicken breasts in flour, then dip in egg mixture, then coat in breadcrumb mixture. Heat oil in a pan and cook chicken until golden brown on both sides. In a baking dish, layer cooked chicken, tomato sauce, and mozzarella cheese. Bake for 20-25 minutes, until cheese is melted and bubbly. Serve with spaghetti."
   },
   {
     "name": "mushroom risotto",
-    "is_vegetarian": true,
+    "isVegetarian": true,
     "servings": 4,
     "ingredients": "arborio rice, mushrooms, onion, garlic, vegetable broth, white wine, parmesan cheese, butter, olive oil, salt, black pepper",
     "instructions": "In a large pot, heat olive oil and butter over medium heat. Add chopped onions and cook until softened. Add minced garlic and cook for another minute. Add sliced mushrooms and cook until tender. Add arborio rice and stir until coated in oil and butter. Add white wine and cook until absorbed. Add vegetable broth, one ladleful at a time, stirring constantly and waiting for broth to be absorbed before adding more. Continue adding broth and stirring until rice is tender and creamy. Stir in grated parmesan cheese and season with salt and black pepper to taste."
   },
   {
     "name": "black bean enchiladas",
-    "is_vegetarian": true,
+    "isVegetarian": true,
     "servings": 6,
     "ingredients": "black beans, enchilada sauce, tortillas, shredded cheese, onion, jalapeño pepper, cilantro, lime, salt, black pepper",
     "instructions": "Preheat oven to 350°F. In a bowl, mix together drained and rinsed black beans, chopped onion, diced jalapeño pepper, chopped cilantro, lime juice, salt, and black pepper. Spoon mixture onto tortillas and roll up. Place rolled tortillas seam-side down in a baking dish. Pour enchilada sauce over the top and sprinkle with shredded cheese. Bake for 20-25 minutes, until cheese is melted and bubbly."
