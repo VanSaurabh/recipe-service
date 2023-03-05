@@ -3,10 +3,15 @@ package com.recipe.manager.repository;
 import static java.util.Objects.nonNull;
 
 import com.recipe.manager.entity.Recipe;
+import com.recipe.manager.model.SearchRecipe;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -16,61 +21,76 @@ public class RecipeSearchRepository {
 
   private final EntityManager entityManager;
 
-  public Optional<List<Recipe>> getRecipesBySearchCriteria(Boolean isVeg, Integer serving,
-      List<String> includedIngredients, List<String> excludedIngredients,
-      String searchInstructions) {
+  public Optional<List<Recipe>> getRecipesBySearchCriteria(SearchRecipe searchRecipe) {
+    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+    CriteriaQuery<Recipe> criteriaQuery = criteriaBuilder.createQuery(Recipe.class);
+    Root<Recipe> recipeRoot = criteriaQuery.from(Recipe.class);
 
-    StringBuilder queryBuilder = new StringBuilder("SELECT rec FROM Recipe rec WHERE");
+    List<Predicate> predicates = new ArrayList<>();
 
-    setIsVeg(isVeg, queryBuilder);
-    setServings(serving, queryBuilder);
-    setIncludedIngredients(includedIngredients, queryBuilder);
-    setExcludedIngredients(excludedIngredients, queryBuilder);
-    setSearchInstructions(searchInstructions, queryBuilder);
+    createIsVegPredicate(searchRecipe, criteriaBuilder, recipeRoot, predicates);
+    createServingsPredicate(searchRecipe, criteriaBuilder, recipeRoot, predicates);
+    createIncludedIngredientsPredicate(searchRecipe, criteriaBuilder, recipeRoot, predicates);
+    createExcludedIngredientsPredicate(searchRecipe, criteriaBuilder, recipeRoot, predicates);
+    createInstructionPredicate(searchRecipe, criteriaBuilder, recipeRoot, predicates);
 
-    queryBuilder.append(" and rec.isDeleted = ").append("false");
+    criteriaQuery.where(predicates.toArray(new Predicate[0]));
 
-    TypedQuery<Recipe> query = entityManager
-        .createQuery(queryBuilder.toString(), Recipe.class);
-
-    return Optional.ofNullable(query.getResultList());
+    return Optional.ofNullable(entityManager.createQuery(criteriaQuery).getResultList());
   }
 
-  private static void setSearchInstructions(String searchInstructions, StringBuilder queryBuilder) {
-    if(nonNull(searchInstructions)) {
-      queryBuilder.append(" and rec.instructions like '%").append(searchInstructions).append("%");
+  private static void createInstructionPredicate(SearchRecipe searchRecipe,
+      CriteriaBuilder criteriaBuilder,
+      Root<Recipe> recipeRoot, List<Predicate> predicates) {
+    if (searchRecipe.getSearchInstructions() != null && !searchRecipe.getSearchInstructions().isEmpty()) {
+      predicates.add(
+          criteriaBuilder.like(recipeRoot.get("instructions"), "%" + searchRecipe.getSearchInstructions() + "%"));
     }
   }
 
-  private static void setExcludedIngredients(List<String> excludedIngredients, StringBuilder queryBuilder) {
-    if(nonNull(excludedIngredients) && !excludedIngredients.isEmpty()) {
-      queryBuilder.append(" and ( rec.ingredients not like '%").append(excludedIngredients.get(0)).append("%'");
-      for(int i=1; i< excludedIngredients.size(); i++) {
-        queryBuilder.append(" and rec.ingredients not like '%").append(excludedIngredients.get(i)).append("%'");
+  private static void createExcludedIngredientsPredicate(SearchRecipe searchRecipe,
+      CriteriaBuilder criteriaBuilder,
+      Root<Recipe> recipeRoot, List<Predicate> predicates) {
+    if (nonNull(searchRecipe.getExcludedIngredients()) && !searchRecipe.getExcludedIngredients().isEmpty()) {
+      List<Predicate> excludedPredicate = new ArrayList<>();
+
+      for (String excludedIngredient : searchRecipe.getExcludedIngredients()) {
+        excludedPredicate.add(
+            criteriaBuilder.notLike(recipeRoot.get("ingredients"), "%" + excludedIngredient + "%"));
       }
-      queryBuilder.append(")");
+
+      predicates.add(criteriaBuilder.and(excludedPredicate.toArray(new Predicate[0])));
     }
   }
 
-  private static void setIncludedIngredients(List<String> includedIngredients, StringBuilder queryBuilder) {
-    if(nonNull(includedIngredients) && !includedIngredients.isEmpty()) {
-      queryBuilder.append(" and ( rec.ingredients like '%").append(includedIngredients.get(0)).append("%'");
-      for(int i=1; i< includedIngredients.size(); i++) {
-        queryBuilder.append(" or rec.ingredients like '%").append(includedIngredients.get(i)).append("%'");
+  private static void createIncludedIngredientsPredicate(SearchRecipe searchRecipe,
+      CriteriaBuilder criteriaBuilder,
+      Root<Recipe> recipeRoot, List<Predicate> predicates) {
+    if (nonNull(searchRecipe.getIncludedIngredients()) && !searchRecipe.getIncludedIngredients().isEmpty()) {
+      List<Predicate> includedPredicate = new ArrayList<>();
+
+      for (String includedIngredient : searchRecipe.getIncludedIngredients()) {
+        includedPredicate.add(
+            criteriaBuilder.like(recipeRoot.get("ingredients"), "%" + includedIngredient + "%"));
       }
-      queryBuilder.append(")");
+
+      predicates.add(criteriaBuilder.or(includedPredicate.toArray(new Predicate[0])));
     }
   }
 
-  private static void setServings(Integer serving, StringBuilder queryBuilder) {
-    if(nonNull(serving) && serving > 0) {
-      queryBuilder.append(" and rec.servings = ").append(serving);
+  private static void createServingsPredicate(SearchRecipe searchRecipe,
+      CriteriaBuilder criteriaBuilder,
+      Root<Recipe> recipeRoot, List<Predicate> predicates) {
+    if (searchRecipe.getServing() != null) {
+      predicates.add(criteriaBuilder.equal(recipeRoot.get("servings"), searchRecipe.getServing()));
     }
   }
 
-  private void setIsVeg(Boolean isVeg, StringBuilder queryBuilder) {
-    if(nonNull(isVeg)) {
-      queryBuilder.append(" rec.isVegetarian = ").append(isVeg);
+  private static void createIsVegPredicate(SearchRecipe searchRecipe,
+      CriteriaBuilder criteriaBuilder,
+      Root<Recipe> recipeRoot, List<Predicate> predicates) {
+    if (searchRecipe.getIsVeg() != null) {
+      predicates.add(criteriaBuilder.equal(recipeRoot.get("isVegetarian"), searchRecipe.getIsVeg()));
     }
   }
 }

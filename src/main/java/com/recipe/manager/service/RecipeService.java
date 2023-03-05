@@ -6,6 +6,7 @@ import static com.recipe.manager.util.Constants.RECIPE_NOT_FOUND_BY_ID_ERROR_MSG
 import com.recipe.manager.entity.Recipe;
 import com.recipe.manager.exception.RecipeException.NotFoundException;
 import com.recipe.manager.mapper.RecipeMapper;
+import com.recipe.manager.model.SearchRecipe;
 import com.recipe.manager.repository.RecipeRepository;
 import com.recipe.manager.repository.RecipeSearchRepository;
 import com.recipe.manager.server.model.RecipeRequest;
@@ -66,9 +67,16 @@ public class RecipeService {
   public List<RecipeResponse> searchRecipe(Boolean isVeg, Integer serving,
       List<String> includedIngredients, List<String> excludedIngredients,
       String searchInstructions) {
+    SearchRecipe searchRecipe = SearchRecipe.builder()
+        .isVeg(isVeg)
+        .serving(serving)
+        .includedIngredients(includedIngredients)
+        .excludedIngredients(excludedIngredients)
+        .searchInstructions(searchInstructions)
+        .build();
+
     return recipeSearchRepository
-        .getRecipesBySearchCriteria(isVeg, serving, includedIngredients, excludedIngredients,
-            searchInstructions)
+        .getRecipesBySearchCriteria(searchRecipe)
         .orElse(Collections.emptyList())
         .stream()
         .map(recipeMapper::mapGetRecipeById)

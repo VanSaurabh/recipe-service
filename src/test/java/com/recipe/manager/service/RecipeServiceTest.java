@@ -174,7 +174,7 @@ class RecipeServiceTest {
         .thenReturn(recipeResponse1);
     when(recipeMapper.mapGetRecipeById(recipe2))
         .thenReturn(recipeResponse2);
-    when(recipeSearchRepository.getRecipesBySearchCriteria(any(), any(), any(), any(), any()))
+    when(recipeSearchRepository.getRecipesBySearchCriteria(any()))
         .thenReturn(Optional.of(List.of(recipe1, recipe2)));
 
     List<RecipeResponse> recipeResponses = recipeService
@@ -191,7 +191,7 @@ class RecipeServiceTest {
   @DisplayName("when user wants to search recipes by different criteria and no valid recipe is found,"
       + " then empty list is returned")
   void shouldReturnEmptyListForSearchRecipe() {
-    when(recipeSearchRepository.getRecipesBySearchCriteria(any(), any(), any(), any(), any()))
+    when(recipeSearchRepository.getRecipesBySearchCriteria(any()))
         .thenReturn(Optional.empty());
 
     List<RecipeResponse> recipeResponses = recipeService

@@ -2,9 +2,9 @@ package com.recipe.manager.repository;
 
 import static com.recipe.manager.util.TestUtil.getRecipe;
 import static com.recipe.manager.util.TestUtil.getRecipe2;
+import static com.recipe.manager.util.TestUtil.getSearchRecipe;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -13,12 +13,13 @@ import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -31,17 +32,24 @@ class RecipeSearchRepositoryTest {
   private RecipeSearchRepository recipeSearchRepository;
   @Mock
   private EntityManager entityManager;
-  @Captor
-  private ArgumentCaptor<String> stringArgumentCaptor;
+  @Mock
+  private CriteriaBuilder criteriaBuilder;
+  @Mock
+  private CriteriaQuery<Recipe> criteriaQuery;
+  @Mock
+  private Root<Recipe> recipeRoot;
 
   private final Recipe recipe1 = getRecipe();
   private final Recipe recipe2 = getRecipe2();
 
   @BeforeEach
   public void setup() {
-    TypedQuery typedQuery = Mockito.mock(TypedQuery.class);
+    when(entityManager.getCriteriaBuilder()).thenReturn(criteriaBuilder);
+    when(criteriaBuilder.createQuery(Recipe.class)).thenReturn(criteriaQuery);
+    when(criteriaQuery.from(Recipe.class)).thenReturn(recipeRoot);
 
-    when(entityManager.createQuery(anyString(), any()))
+    TypedQuery typedQuery = Mockito.mock(TypedQuery.class);
+    when(entityManager.createQuery(criteriaQuery))
         .thenReturn(typedQuery);
     when(typedQuery.getResultList())
         .thenReturn(List.of(recipe1, recipe2));
@@ -52,18 +60,13 @@ class RecipeSearchRepositoryTest {
       + "then return the list of recipes")
   void shouldSearchRecipeByAllCriteria() {
     Optional<List<Recipe>> optionalRecipes = recipeSearchRepository
-        .getRecipesBySearchCriteria(true, 4, List.of("tomatoes", "ginger"),
-            List.of("Liccorice", "sugar"), "cook, peel");
-
-    verify(entityManager).createQuery(stringArgumentCaptor.capture(), any());
-    String query = stringArgumentCaptor.getValue();
+        .getRecipesBySearchCriteria(getSearchRecipe(true, 4,
+            List.of("tomatoes", "ginger"), List.of("Liccorice", "sugar"), "cook, peel"));
 
     assertThat(optionalRecipes).isPresent().get().isEqualTo(List.of(recipe1, recipe2));
-    assertThat(query)
-        .isEqualTo("SELECT rec FROM Recipe rec WHERE rec.isVegetarian = true "
-            + "and rec.servings = 4 and ( rec.ingredients like '%tomatoes%' or rec.ingredients "
-            + "like '%ginger%') and ( rec.ingredients not like '%Liccorice%' and rec.ingredients "
-            + "not like '%sugar%') and rec.instructions like '%cook, peel% and rec.isDeleted = false");
+    verify(entityManager, times(1)).getCriteriaBuilder();
+    verify(criteriaBuilder, times(1)).createQuery(Recipe.class);
+    verify(criteriaQuery, times(1)).from(Recipe.class);
   }
 
   @Test
@@ -71,16 +74,13 @@ class RecipeSearchRepositoryTest {
       + "then return the list of recipes")
   void shouldSearchRecipeByOnlyIsVegCriteria() {
     Optional<List<Recipe>> optionalRecipes = recipeSearchRepository
-        .getRecipesBySearchCriteria(true, 0,
-            null, null, null);
-
-    verify(entityManager).createQuery(stringArgumentCaptor.capture(), any());
-    String query = stringArgumentCaptor.getValue();
+        .getRecipesBySearchCriteria(getSearchRecipe(true, 0,
+            null, null, null));
 
     assertThat(optionalRecipes).isPresent().get().isEqualTo(List.of(recipe1, recipe2));
-    assertThat(query)
-        .isEqualTo("SELECT rec FROM Recipe rec WHERE "
-            + "rec.isVegetarian = true and rec.isDeleted = false");
+    verify(entityManager, times(1)).getCriteriaBuilder();
+    verify(criteriaBuilder, times(1)).createQuery(Recipe.class);
+    verify(criteriaQuery, times(1)).from(Recipe.class);
   }
 
   @Test
@@ -88,17 +88,13 @@ class RecipeSearchRepositoryTest {
       + "then return the list of recipes")
   void shouldSearchRecipeByOnlyExcludedIngredientsCriteria() {
     Optional<List<Recipe>> optionalRecipes = recipeSearchRepository
-        .getRecipesBySearchCriteria(true, 0, null,
-            List.of("Liccorice", "sugar"), null);
-
-    verify(entityManager).createQuery(stringArgumentCaptor.capture(), any());
-    String query = stringArgumentCaptor.getValue();
+        .getRecipesBySearchCriteria(getSearchRecipe(true, 0, null,
+            List.of("Liccorice", "sugar"), null));
 
     assertThat(optionalRecipes).isPresent().get().isEqualTo(List.of(recipe1, recipe2));
-    assertThat(query)
-        .isEqualTo("SELECT rec FROM Recipe rec WHERE rec.isVegetarian = true "
-            + "and ( rec.ingredients not like '%Liccorice%' and rec.ingredients not like '%sugar%') "
-            + "and rec.isDeleted = false");
+    verify(entityManager, times(1)).getCriteriaBuilder();
+    verify(criteriaBuilder, times(1)).createQuery(Recipe.class);
+    verify(criteriaQuery, times(1)).from(Recipe.class);
   }
 
   @Test
@@ -106,17 +102,13 @@ class RecipeSearchRepositoryTest {
       + "then return the list of recipes")
   void shouldSearchRecipeByOnlyIncludedIngredientsCriteria() {
     Optional<List<Recipe>> optionalRecipes = recipeSearchRepository
-        .getRecipesBySearchCriteria(true, 0, List.of("tomatoes", "ginger"),
-            null, null);
-
-    verify(entityManager).createQuery(stringArgumentCaptor.capture(), any());
-    String query = stringArgumentCaptor.getValue();
+        .getRecipesBySearchCriteria(getSearchRecipe(true, 0, List.of("tomatoes", "ginger"),
+            null, null));
 
     assertThat(optionalRecipes).isPresent().get().isEqualTo(List.of(recipe1, recipe2));
-    assertThat(query)
-        .isEqualTo("SELECT rec FROM Recipe rec WHERE rec.isVegetarian = true "
-            + "and ( rec.ingredients like '%tomatoes%' or rec.ingredients like '%ginger%') "
-            + "and rec.isDeleted = false");
+    verify(entityManager, times(1)).getCriteriaBuilder();
+    verify(criteriaBuilder, times(1)).createQuery(Recipe.class);
+    verify(criteriaQuery, times(1)).from(Recipe.class);
   }
 
   @Test
@@ -124,16 +116,13 @@ class RecipeSearchRepositoryTest {
       + "then return the list of recipes")
   void shouldSearchRecipeByOnlySearchInstructionsCriteria() {
     Optional<List<Recipe>> optionalRecipes = recipeSearchRepository
-        .getRecipesBySearchCriteria(true, 0, null,
-            null, "cook, peel");
-
-    verify(entityManager).createQuery(stringArgumentCaptor.capture(), any());
-    String query = stringArgumentCaptor.getValue();
+        .getRecipesBySearchCriteria(getSearchRecipe(true, 0, null,
+            null, "cook, peel"));
 
     assertThat(optionalRecipes).isPresent().get().isEqualTo(List.of(recipe1, recipe2));
-    assertThat(query)
-        .isEqualTo("SELECT rec FROM Recipe rec WHERE rec.isVegetarian = true "
-            + "and rec.instructions like '%cook, peel% and rec.isDeleted = false");
+    verify(entityManager, times(1)).getCriteriaBuilder();
+    verify(criteriaBuilder, times(1)).createQuery(Recipe.class);
+    verify(criteriaQuery, times(1)).from(Recipe.class);
   }
 
   @Test
@@ -141,16 +130,11 @@ class RecipeSearchRepositoryTest {
       + "then return the list of recipes")
   void shouldSearchRecipeByOnlyServingsCriteria() {
     Optional<List<Recipe>> optionalRecipes = recipeSearchRepository
-        .getRecipesBySearchCriteria(true, 4, null,
-            null, null);
-
-    verify(entityManager).createQuery(stringArgumentCaptor.capture(), any());
-    String query = stringArgumentCaptor.getValue();
-
+        .getRecipesBySearchCriteria(getSearchRecipe(true, 4, null,
+            null, null));
     assertThat(optionalRecipes).isPresent().get().isEqualTo(List.of(recipe1, recipe2));
-    assertThat(query)
-        .isEqualTo("SELECT rec FROM Recipe rec WHERE rec.isVegetarian = true "
-            + "and rec.servings = 4 and rec.isDeleted = false");
+    verify(entityManager, times(1)).getCriteriaBuilder();
+    verify(criteriaBuilder, times(1)).createQuery(Recipe.class);
+    verify(criteriaQuery, times(1)).from(Recipe.class);
   }
-
 }

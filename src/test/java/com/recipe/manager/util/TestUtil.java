@@ -1,8 +1,10 @@
 package com.recipe.manager.util;
 
 import com.recipe.manager.entity.Recipe;
+import com.recipe.manager.model.SearchRecipe;
 import com.recipe.manager.server.model.RecipeRequest;
 import com.recipe.manager.server.model.RecipeResponse;
+import java.util.List;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -59,5 +61,17 @@ public class TestUtil {
         .servings(2)
         .isVegetarian(true)
         .instructions("Cook daal, cook baati, add chutney and serve");
+  }
+
+  public static SearchRecipe getSearchRecipe(boolean isVeg, int servings, List<String> included,
+      List<String> excluded, String instructions) {
+    return SearchRecipe
+        .builder()
+        .isVeg(isVeg)
+        .serving(servings)
+        .includedIngredients(included)
+        .excludedIngredients(excluded)
+        .searchInstructions(instructions)
+        .build();
   }
 }
