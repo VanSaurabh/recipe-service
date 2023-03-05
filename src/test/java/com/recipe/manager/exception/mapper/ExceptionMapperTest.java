@@ -5,6 +5,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import com.recipe.manager.exception.RecipeException.NotFoundException;
 import com.recipe.manager.exception.model.ExceptionResponse;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +18,8 @@ class ExceptionMapperTest {
   private ExceptionMapperImpl exceptionMapper;
 
   @Test
+  @DisplayName("when not found exception is handled by exception handler,"
+      + "then not found exception should be mapped with exception response")
   void shouldMapNotFoundException() {
     NotFoundException notFoundException = new NotFoundException("not found");
     ExceptionResponse response = exceptionMapper

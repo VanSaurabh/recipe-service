@@ -11,6 +11,7 @@ import com.recipe.manager.exception.mapper.ExceptionMapper;
 import com.recipe.manager.exception.mapper.ExceptionMapperImpl;
 import com.recipe.manager.exception.model.ExceptionResponse;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,6 +30,8 @@ class ExceptionResponseHandlerTest {
   private ExceptionMapperImpl exceptionMapper;
 
   @Test
+  @DisplayName("when not found exception is thrown in code, "
+      + "then exception handler should handle the same")
   void shouldHandleNotFoundException() {
     NotFoundException notFoundException = new NotFoundException("not found");
     ExceptionResponse response = ExceptionResponse.builder()

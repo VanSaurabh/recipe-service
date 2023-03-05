@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.recipe.manager.entity.Recipe;
 import com.recipe.manager.server.model.RecipeResponse;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,6 +25,7 @@ class RecipeMapperTest {
   private static final String INSTRUCTIONS = "instructions";
 
   @Test
+  @DisplayName("when RecipeRequest is passed, then it should be mapped to Recipe object")
   void shouldMapCreateRecipe() {
     Recipe recipe = recipeMapper.mapCreateRecipe(getRecipeRequest());
     assertThat(recipe).isNotNull()
@@ -32,6 +34,7 @@ class RecipeMapperTest {
   }
 
   @Test
+  @DisplayName("when Recipe is passed, then it should be mapped to RecipeResponse object")
   void shouldMapGetRecipeById() {
     RecipeResponse recipeResponse = recipeMapper.mapGetRecipeById(getRecipe());
     assertThat(recipeResponse).isNotNull()
@@ -40,6 +43,7 @@ class RecipeMapperTest {
   }
 
   @Test
+  @DisplayName("when RecipeRequest is passed, then it should be mapped to Recipe object")
   void shouldMapUpdateRecipe() {
     Recipe recipe = recipeMapper.mapUpdateRecipe(getRecipeRequest(), getRecipe());
     assertThat(recipe).isNotNull()

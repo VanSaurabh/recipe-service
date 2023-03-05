@@ -12,6 +12,7 @@ import static org.springframework.http.HttpStatus.OK;
 import com.recipe.manager.server.model.RecipeResponse;
 import com.recipe.manager.service.RecipeService;
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,6 +29,8 @@ class RecipeControllerTest {
   private RecipeService recipeService;
 
   @Test
+  @DisplayName("when user wants to add a recipe,"
+      + "then recipe should be added")
   void shouldAddRecipes() {
     ResponseEntity<Void> response = recipeController.addRecipes(getRecipeRequest());
     assertThat(response).isNotNull();
@@ -35,6 +38,8 @@ class RecipeControllerTest {
   }
 
   @Test
+  @DisplayName("when user wants to delete a recipe,"
+      + "then recipe should be deleted")
   void shouldDeleteRecipe() {
     ResponseEntity<Void> response = recipeController.deleteRecipe(1);
     assertThat(response).isNotNull();
@@ -42,6 +47,8 @@ class RecipeControllerTest {
   }
 
   @Test
+  @DisplayName("when user wants to get a recipe by id,"
+      + "then respective recipe with id should be returned")
   void shouldGetRecipeById() {
     RecipeResponse recipeResponse = getRecipeResponse();
     when(recipeService.getRecipeById(any()))
@@ -53,6 +60,8 @@ class RecipeControllerTest {
   }
 
   @Test
+  @DisplayName("when user wants all the recipes,"
+      + "then all the valid recipes should be returned")
   void shouldGetRecipes() {
     RecipeResponse recipeResponse = getRecipeResponse();
     when(recipeService.getRecipes())
@@ -64,6 +73,8 @@ class RecipeControllerTest {
   }
 
   @Test
+  @DisplayName("when user wants to search recipes based on some criteria,"
+      + "then respective recipes should be returned")
   void shouldSearchRecipes() {
     RecipeResponse recipeResponse = getRecipeResponse();
     when(recipeService.searchRecipe(any(), any(), any(), any(), any()))
@@ -76,6 +87,8 @@ class RecipeControllerTest {
   }
 
   @Test
+  @DisplayName("when user wants to update a recipe,"
+      + "then respctive recipe details should be updated")
   void shouldUpdateRecipes() {
     ResponseEntity<Void> response = recipeController
         .updateRecipes(any(), any());
