@@ -1,0 +1,130 @@
+{
+	"info": {
+		"_postman_id": "22f44504-fc01-4278-8076-005a90b979d8",
+		"name": "Recipe-Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13503371"
+	},
+	"item": [
+		{
+			"name": "Add Recipe",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"spaghetti carbonara\",\n    \"is_vegetarian\": false,\n    \"servings\": 4,\n    \"ingredients\": \"spaghetti, eggs, bacon, parmesan cheese, black pepper\",\n    \"instructions\": \"Cook spaghetti according to package instructions. Meanwhile, cook bacon until crispy. Beat eggs and mix in parmesan cheese and black pepper. Drain spaghetti and add to the pan with the bacon. Remove from heat and quickly stir in egg mixture. Serve immediately.\",\n    \"is_deleted\": false\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/recipe-manager/api/v1/recipes",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"recipe-manager",
+						"api",
+						"v1",
+						"recipes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Recipes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/recipe-manager/api/v1/recipes",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"recipe-manager",
+						"api",
+						"v1",
+						"recipes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Recipe",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/recipe-manager/api/v1/recipes/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"recipe-manager",
+						"api",
+						"v1",
+						"recipes",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Recipes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/recipe-manager/api/v1/search/recipes/?isVeg=true&serving=4&instructions=cook",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"recipe-manager",
+						"api",
+						"v1",
+						"search",
+						"recipes",
+						""
+					],
+					"query": [
+						{
+							"key": "isVeg",
+							"value": "true"
+						},
+						{
+							"key": "serving",
+							"value": "4"
+						},
+						{
+							"key": "includedIngredients",
+							"value": "carrots,tomatoes",
+							"disabled": true
+						},
+						{
+							"key": "excludedIngredients",
+							"value": "lentils,celery, carrot",
+							"disabled": true
+						},
+						{
+							"key": "instructions",
+							"value": "cook"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
